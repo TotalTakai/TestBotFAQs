@@ -1,54 +1,106 @@
 # TestBotFAQs
 
-This is a small project done to test the feasibility of a helper bot to the Overwolf app dev community.
+![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
+![OpenAI](https://img.shields.io/badge/OpenAI-API-green?logo=openai)
+![Discord](https://img.shields.io/badge/Discord-Bot-5865F2?logo=discord)
+![Status](https://img.shields.io/badge/Status-Local%20Development-yellow)
+
+> This is a small project done to test the feasibility of a helper bot to the Overwolf app dev community.
+
+---
 
 ## Project Structure
 
-The app contains:
+The app contains the following components:
 
-- **`bot.py`** - In charge of running the bot. Hosted locally at the moment. Make sure to run `python bot.py` in your terminal to launch it.
-- **`crawler.py`** - Crawls to dev.overwolf website (can be switched to any website), and downloads all the text into a JSON file.
-- **`chunk.py`** - In charge of breaking down the JSON text into smaller chunks for embedding.
-- **`embed.py`** - In charge of embedding the chunked JSON into an SQLite database and ordering them into FAISS.
-- **`qa.py`** - The brain of the operation. In charge of searching the documentation, sending to the prompt and returning an answer.
+<div align="center">
+| File | Description |
+|------|-------------|
+| **`bot.py`** | In charge of running the bot. Hosted locally at the moment. Make sure to run `python bot.py` in your terminal to launch it. |
+| **`crawler.py`** | Crawls to dev.overwolf website (can be switched to any website), and downloads all the text into a JSON file. |
+| **`chunk.py`** | In charge of breaking down the JSON text into smaller chunks for embedding. |
+| **`embed.py`** | In charge of embedding the chunked JSON into an SQLite database and ordering them into FAISS. |
+| **`qa.py`** | The brain of the operation. In charge of searching the documentation, sending to the prompt and returning an answer. |
+</div>
+---
 
 ## Requirements
 
 Things required to run this code:
 
-1. **OpenAI API Key** - Used for both embedding and answering questions
-2. **Discord Token** - Used to contact Discord and send messages through the bot
+<div align="center">
+
+| Requirement | Purpose |
+|:-----------:|:--------|
+| **OpenAI API Key** | Used for both embedding and answering questions |
+| **Discord Token** | Used to contact Discord and send messages through the bot |
+
+</div>
+
+---
 
 ## Setup Instructions
 
-1. Create a `data` folder
-2. Create a Discord bot and add its `DISCORD_TOKEN` into the `.env` file
-3. Purchase some credits in OpenAI and add your `OPENAI_API_KEY` into the `.env` file
-4. Run the following commands in order in your terminal:
+### Step 1: Create Data Folder
+Create a `data` folder in the project root.
 
-   ```bash
-   python crawler.py
-   ```
-   - Will run the crawler file and extract all of `BASE_URL` and links into a JSON file (saved as `data/docs.json`)
+### Step 2: Configure Environment Variables
+1. Create a Discord bot and add its `DISCORD_TOKEN` into the `.env` file
+2. Purchase some credits in OpenAI and add your `OPENAI_API_KEY` into the `.env` file
 
-   ```bash
-   python chunk.py
-   ```
-   - Will run the chunk file and break down `docs.json` into a new JSON broken into smaller chunks (saved as `data/docs_chunks.json`)
+### Step 3: Run Setup Commands
+Run the following commands in order in your terminal:
 
-   ```bash
-   python embed.py
-   ```
-   - Will embed the chunks JSON into a SQLite database (`data/chunks.db`) and FAISS index (`data/index.faiss`). This might take multiple hours, depending on the size of the JSON - the speed is rate-limited so you'll be able to use it on any computer. The script will automatically resume from where it left off if interrupted.
+<details>
+<summary><b>Step 3a: Run Crawler</b></summary>
 
-5. Run the bot:
+```bash
+python crawler.py
+```
 
-   ```bash
-   python bot.py
-   ```
-   - Will login your bot and let it access your database
+**What it does:** Runs the crawler file and extracts all of `BASE_URL` and links into a JSON file (saved as `data/docs.json`)
+
+</details>
+
+<details>
+<summary><b>Step 3b: Run Chunker</b></summary>
+
+```bash
+python chunk.py
+```
+
+**What it does:** Runs the chunk file and breaks down `docs.json` into a new JSON broken into smaller chunks (saved as `data/docs_chunks.json`)
+
+</details>
+
+<details>
+<summary><b>Step 3c: Run Embedder</b></summary>
+
+```bash
+python embed.py
+```
+
+**What it does:** Embeds the chunks JSON into a SQLite database (`data/chunks.db`) and FAISS index (`data/index.faiss`). 
+
+> **Note:** This might take multiple hours, depending on the size of the JSON - the speed is rate-limited so you'll be able to use it on any computer. The script will automatically resume from where it left off if interrupted.
+
+</details>
+
+### Step 4: Launch the Bot
+```bash
+python bot.py
+```
+
+**What it does:** Logs in your bot and lets it access your database.
+
+---
 
 ## Important Notes
 
-- This app is meant to run locally - which means the database is saved on your PC and the bot is running in your PC's background
-- This app does not auto-update the database every time there's a new update to the `base_url` you've set as input - which means that if the online database was changed, your bot won't be up to date with the changes
+<div>
+
+> **Local Execution:** This app is meant to run locally - which means the database is saved on your PC and the bot is running in your PC's background
+
+> **Manual Updates:** This app does not auto-update the database every time there's a new update to the `base_url` you've set as input - which means that if the online database was changed, your bot won't be up to date with the changes
+
+</div>
