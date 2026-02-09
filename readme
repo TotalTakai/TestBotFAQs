@@ -1,29 +1,54 @@
-This is a small Project done to test the feasability of a helper bot to the overwolf app dev community.
+# TestBotFAQs
 
-*The app contains:*
-Bot.py - In-charge of running the bot. Hosted locally at the moment, make sure to run python bot.py in your terminal to launch it.
-crawler.py - Crawls to dev.overwolf website (can be switched to any website), and downloads all the text into a json file
-chunk.py - In-charge of breaking down the json text into smaller chunks for embedding.
-embed.py - In-charge of embedding the chunked json into an SQLite db and order them into FAISS.
-qa.py - The brain of the operation. In-charge of searching the documantation, sending to the prompt and retuning an answer.
+This is a small project done to test the feasibility of a helper bot to the Overwolf app dev community.
 
-*Things required to run this code*
-1. OpenAI Api Key - used for both embedding and answering questions
-2. Discord Token  - used to contact the contact discord, and send messages through the bot.
+## Project Structure
 
-*How to set up*
-1. Create a data folder
-2. Create a discord bot and add his DISCORD_TOKEN into the .env file
-3. Purchase some credits in OpenAI and add your OPENAI_API_KEY into the .env file
-4. Run in the Terminal the following commands in order:
-  a. python crawler.py - Will run the crawler file, and extract all of BASE_URL and links into a json file (saved as data/docs.json)
-  b. python chunk.py - Will run the chunk file, and it will break down docs.json into a new json broken into smaller chunks (saved as data/docs_chunks.json)
-  c. python embed.py - Will embed the chunks json into a SQLite db (data/chunks.db) and FAISS index (data/index.faiss). This might take multiple hours, depending on the size of the json - the speed is rate-limited so you'll be able to use it on any computer. The script will automatically resume from where it left off if interrupted.
-5. Run python bot.py - Will login your bot, and let it access your db.
+The app contains:
 
-*Important Notes*
-- This app is meant to run local - which means the DB is saved in your PC and the bot is running in your PC's background
-- This app does not auto updates the DB every time there's a new update to the base_url you've set as input - which means that if the online data base was changed, your bot won't be up to date with the changes.
+- **`bot.py`** - In charge of running the bot. Hosted locally at the moment. Make sure to run `python bot.py` in your terminal to launch it.
+- **`crawler.py`** - Crawls to dev.overwolf website (can be switched to any website), and downloads all the text into a JSON file.
+- **`chunk.py`** - In charge of breaking down the JSON text into smaller chunks for embedding.
+- **`embed.py`** - In charge of embedding the chunked JSON into an SQLite database and ordering them into FAISS.
+- **`qa.py`** - The brain of the operation. In charge of searching the documentation, sending to the prompt and returning an answer.
 
+## Requirements
 
+Things required to run this code:
 
+1. **OpenAI API Key** - Used for both embedding and answering questions
+2. **Discord Token** - Used to contact Discord and send messages through the bot
+
+## Setup Instructions
+
+1. Create a `data` folder
+2. Create a Discord bot and add its `DISCORD_TOKEN` into the `.env` file
+3. Purchase some credits in OpenAI and add your `OPENAI_API_KEY` into the `.env` file
+4. Run the following commands in order in your terminal:
+
+   ```bash
+   python crawler.py
+   ```
+   - Will run the crawler file and extract all of `BASE_URL` and links into a JSON file (saved as `data/docs.json`)
+
+   ```bash
+   python chunk.py
+   ```
+   - Will run the chunk file and break down `docs.json` into a new JSON broken into smaller chunks (saved as `data/docs_chunks.json`)
+
+   ```bash
+   python embed.py
+   ```
+   - Will embed the chunks JSON into a SQLite database (`data/chunks.db`) and FAISS index (`data/index.faiss`). This might take multiple hours, depending on the size of the JSON - the speed is rate-limited so you'll be able to use it on any computer. The script will automatically resume from where it left off if interrupted.
+
+5. Run the bot:
+
+   ```bash
+   python bot.py
+   ```
+   - Will login your bot and let it access your database
+
+## Important Notes
+
+- This app is meant to run locally - which means the database is saved on your PC and the bot is running in your PC's background
+- This app does not auto-update the database every time there's a new update to the `base_url` you've set as input - which means that if the online database was changed, your bot won't be up to date with the changes
